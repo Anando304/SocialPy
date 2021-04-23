@@ -1,0 +1,1213 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{fullpage}
+\usepackage[round]{natbib}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{hhline}
+\usepackage{ulem}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\newcounter{acnum}
+\newcommand{\actheacnum}{AC\theacnum}
+\newcommand{\acref}[1]{AC\ref{#1}}
+
+\newcounter{ucnum}
+\newcommand{\uctheucnum}{UC\theucnum}
+\newcommand{\uref}[1]{UC\ref{#1}}
+
+\newcounter{mnum}
+\newcommand{\mthemnum}{M\themnum}
+\newcommand{\mref}[1]{M\ref{#1}}
+
+\title{SE 3XA3: Module Interface Specification\\SocialPy}
+
+\author{
+	Team 1, SocialPy
+		\\ Anando Zaman, zamana11
+        \\ Graeme Woods, woodsg1
+        \\ Yuvraj Randhawa, randhawy
+        \\ Due March 5, 2021
+        \\ Tag DD-Rev.1
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{table}[!htbp]
+    \caption{Revision History} \label{RevisionHistory}
+    \begin{tabularx}{\textwidth}{llX}
+        \toprule
+            \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+        \midrule
+            March 13, 2021 & Anando Zaman & Copy template\\
+            March 14, 2021 & Anando Zaman & Made progress on Profile modules\\
+            March 14, 2021 & Anando Zaman & Completed MIS for Authentication and command parser modules\\
+            March 17, 2021 & Anando Zaman & Finalized CommandParser, Authentication, firebase\_creds, ViewPost, Add Followers, DeleteAccount and Query modules.\\
+            March 17, 2021 & Yuvraj Randhawa & Completed DeletePost, EditName, \& EditLocation modules\\
+            March 17, 2021 & Graeme Woods & Completed DeletePost, EditPost, and EditLocation modules \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\newpage
+\pagenumbering{arabic}
+\section* {CommandParser Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+ViewPost\\
+AddPost\\
+EditPost\\
+DeletePost\\
+AddFollowers\\
+DeleteFollowers\\
+ViewFollowers\\
+
+\subsection* {Brief Description}
+This class represents a the Command Parser. It details the suite of functions that are able to parse/execute commands. It is therefore a controller module.
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{3.5cm}|p{4cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         parseCommand() & command: str & GUI & Invalid Command alert\\
+        \hline
+         post\_commands() & command\_action: str, command\_context: str  & GUI & Invalid Command alert\\
+        \hline
+         profile\_commands() & command\_action: str, command\_context: str  & GUI & Invalid Command alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+\textbf{running}: Boolean value that controls whole program should exit/run.\\
+\textbf{firebase}: firebase object instance to execute commands via Pyrebase API.\\
+\textbf{db}: firebase database object instance used to execute database commands\\
+\textbf{user\_token}: string value that is used to identify an active authenticated user in order to execute commands to the database.
+\subsubsection{Environmental Variables}
+ Display Device: Screen
+ Input: Keyboard
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+$parseCommand()$ is called before $post\_commands()$ \& $profile\_commands()$
+
+\subsubsection{Access Program Semantics}
+ parseCommand(self,command)
+\begin{itemize}
+    \item Transition: transition the user to a different module.
+    \item output: success message and the action completed
+    \item exception : if command is not in the set of available commands, raise invalid command exception.
+\end{itemize}
+
+post\_commands(self,command\_action, command\_context)
+\begin{itemize}
+    \item Transition: transition the user to add, view, delete
+    \item Output: Success message that an action has been completed
+    \item exception : if command is not in the set of available commands, raise invalid command exception.
+\end{itemize}
+
+profile\_commands(self,command\_action, command\_context)
+\begin{itemize}
+    \item Transition: transition the user to add, view, delete
+    \item Output: Success message that an action has been completed
+    \item exception : if command is not in the set of available commands, raise invalid command exception.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+\section* {Authentication Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+
+\subsection* {Brief Description}
+This class represents all that is needed to Authenticate the user.
+It takes a Firebase instance and db instance for the constructor and executes the functions outlined below in order to authenticate or reset account credentials.
+
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{3.5cm}|p{3cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         login() & Input: str & GUI & Invalid credentials alert\\
+        \hline
+         register() & Input: str  & GUI & Registration\_Fail alert, Account\_exists alert\\
+        \hline
+         password\_reset() & Input: str  & GUI & Invalid\_email alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+firebase: firebase object instance to execute commands via Pyrebase API.\\
+db: firebase database object instance used to execute database commands\\
+
+\subsubsection{Environmental Variables}
+Display Device: Screen\\
+Input: Keyboard
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+Valid internet connection established
+
+\subsubsection{Access Program Semantics}
+login()
+\begin{itemize}
+    \item transition: Authenticates the user credentials with that found in the Firebase console. If successful, transitions to homescreen.
+    \item output: displays success message.
+    \item exception : If credentials pair is invalid or does not exist, raise Invalid Credentials alert.
+\end{itemize}
+
+
+register()
+\begin{itemize}
+    \item transition: Creates an account for the user by uupdating the database with the account credentials and general information(name, city, username). If successful, transitions to homescreen.
+    \item output: displays success message and homescreen.
+    \item exception : If credentials pair is invalid or already exists, raise Account\_exists alert. If registration failed for any other reason, raise Registration\_Fail alert.
+\end{itemize}
+
+
+Password\_reset()
+\begin{itemize}
+    \item transition: Sends a password reset request to Firebase upon which Firebase sends an email to the user prompting to reset password.
+    \item output: displays success message and homescreen.
+    \item exception : If email is invalid or already exists, raise invalid email alert.
+\end{itemize}
+
+
+
+
+
+
+
+
+\section* {firebase\_creds Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+None
+
+\subsection* {Brief Description}
+This class is used for initializing the Firebase API connection and contains methods for interaction. It contains the API setup along with the various getter/setter methods to make changes to the DB during first-start.
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{3cm}|p{3.5cm}|p{3cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         get\_db() & None & db: db\_object & Session Unavailable Alert\\
+        \hline
+         sign\_in() & email: str, password: str  & None & Invalid Credentials Alert\\
+        \hline
+         sign\_up() & email: str, password: str  & None & Insufficient Email Alert\\
+        \hline
+         get\_user\_instance() & None  & user: str & Session Unavailable Alert\\
+        \hline
+         get\_username() & None  & username: str & Session Unavailable Alert\\
+        \hline
+         set\_username() & username: str  & None & Session Unavailable Alert\\
+        \hline
+         get\_UID() & None & UID: str & Session Unavailable Alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+        auth = firebase.auth object\\
+        user = str\\
+        username = str\\
+        db = database object\\
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display Device: Screen
+
+\subsubsection{State Invariant}
+
+\subsubsection{Assumptions}
+Valid internet connection exists in order to authenticate.
+
+\subsubsection{Access Program Semantics}
+ get\_db()
+\begin{itemize}
+    \item transition: None 
+    \item output: self.db
+    \item exception : If user is not yet logged in, then a database connection has not yet been established and thus Session Unavailable Alert occurs.
+\end{itemize}
+
+sign\_in(username, password)
+\begin{itemize}
+    \item transition: self.username := username input.  self.db := self.firebase.db
+    \item output: Success message to the GUI
+    \item exception : If user is not yet logged in, then a database connection has not yet been established and thus Invalid Credentials Alert occurs.
+\end{itemize}
+
+
+sign\_up(username, password)
+\begin{itemize}
+    \item transition: self.username := username input.  self.db := self.firebase.db
+    \item output: Success message to the GUI
+    \item exception : If user email is already registered or invalid, then Insufficient Email Alert is raised.
+\end{itemize}
+
+ get\_user\_instance()
+ \begin{itemize}
+    \item transition: None
+    \item output: self.user
+    \item exception : If user credentials are insufficient, then a Session Unavailable Alert occurs.
+\end{itemize}
+
+ get\_username()
+ \begin{itemize}
+    \item transition: None
+    \item output: self.username
+    \item exception : If user credentials are insufficient, then a Session Unavailable Alert occurs.
+\end{itemize}
+
+ set\_username(username)
+ \begin{itemize}
+    \item transition: self.username := username
+    \item output: Success message to the GUI
+    \item exception : If user credentials are insufficient, then a Session Unavailable Alert occurs.
+\end{itemize}
+
+ get\_UID() 
+\begin{itemize}
+    \item transition: None
+    \item output: self.auth.get\_account\_info(self.user['idToken'])["users"][0]['localId']
+    \item exception : If user credentials are insufficient, then a Session Unavailable Alert occurs.
+\end{itemize}
+
+
+
+
+
+
+
+
+\newpage
+\section* {AddPost Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for addingPosts by the specified user.
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         addPost() & db: DB\_Object, username: str, content: str, user\_token: str  & post: str & None\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+None
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display Device: Screen
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User is authenticated
+
+\subsubsection{Access Program Semantics}
+addPost(db, username, content, user\_token)
+\begin{itemize}
+    \item transition: Uploads an instance of a post to the database under the currently authenticated user.
+    \item output Success message to the GUI
+    \item exception : None
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\section* {DeletePost Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for Deleting a post that exists and corresponds to a user.
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         DeletePost() & db: DB\_Object, current\_user: str, user\_token: str, post\_id: str  & GUI & InvalidPostID alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+None
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display Device: Screen
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User is authenticated
+
+\subsubsection{Access Program Semantics}
+DeletePost(db, current\_user, user\_token, post\_id)
+\begin{itemize}
+    \item transition: Deletes a specified post from the database under the currently authenticated user.
+    \item output $:= $ Success message to the GUI
+    \item exception : If inputted post id does not exist, raise InvalidPostID alert.
+\end{itemize}
+
+\newpage
+\section* {EditPost Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for Editing an existing post that corresponds to the user.
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         EditPost() & db: db\_object, current\_user: str, user\_token: str, post\_id: str, content: str  & GUI & -\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display Device: Screen
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User is authenticated
+
+\subsubsection{Access Program Semantics}
+EditPost(db, current\_user, user\_token, post\_id, content)
+\begin{itemize}
+    \item transition: Edits an existing post corresponding to the given post\_id in the database.
+    \item output Success message to the GUI
+    \item exception : None
+\end{itemize}
+
+
+
+
+
+
+
+
+\newpage
+\section* {QueryPost Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for Querying existing posts that correspond to a specific user or for querying ALL posts available in the database.
+
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         QueryPostsByUser() & db: db\_object, username: str, user\_token: str  & postContent: list[String] & Invalid\_user alert\\
+                 \hline
+         QueryPostsAll() & db: db\_object, user\_token: str  & postContent: list[String] & None\\
+                 \hline
+         QueryPostsFollowing() & db: db\_object, firebase: firebase\_object user\_token: str  & postContent: HashMap[String] & Invalid\_user alert\\
+         
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+None
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+Assumed that the user is logged in.
+
+\subsubsection{Access Program Semantics}
+QueryPostsByUser(db, username, user\_token)
+\begin{itemize}
+    \item transition: None
+    \item output: Returns a list containing all the posts of a user
+    \item exception : If user does not exist, raise Invalid\_user alert
+\end{itemize}
+
+
+\subsubsection{Access Program Semantics}
+QueryPostsAll(db, user\_token)
+\begin{itemize}
+    \item transition: None
+    \item output: Returns a list of ALL the posts
+    \item exception : None
+\end{itemize}
+
+
+\subsubsection{Access Program Semantics}
+QueryPostsFollowing(db, username, user\_token)
+\begin{itemize}
+    \item transition: None
+    \item output: Returns a dictionary containing the posts of all users you follow.
+    \item exception : If user does not exist, raise Invalid\_user alert
+\end{itemize}
+
+
+
+
+
+
+\section* {ViewPost Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for Viewing/displaying existing posts to the screen that correspond to a specific user or for querying ALL posts available in the database.
+
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         ViewPostsByUser() & db: db\_object, username: str, user\_token: str  & GUI & InvalidUser Alert\\
+                 \hline
+         ViewPostsAll() & db: db\_object, user\_token: str & GUI & InvalidUser Alert\\
+                 \hline
+         ViewPostsFollowing() & db: db\_object, firebase: firebase\_object user\_token: str & GUI & InvalidUser Alert\\
+         
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+None
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User is logged in, thus a valid user session exists.
+
+\subsubsection{Access Program Semantics}
+ViewPostsByUser()
+\begin{itemize}
+    \item transition: 
+    \item output $:= $ displays the posts information by a user to the screen.
+    \item exception : If user does not exist, raise InvalidUser alert
+\end{itemize}
+
+ViewPostsAll()
+\begin{itemize}
+    \item transition: None
+    \item output $:= $ displays ALL the posts information to the screen.
+    \item exception : If user does not exist, raise InvalidUser alert
+\end{itemize}
+
+ViewPostsFollowing()
+\begin{itemize}
+    \item transition: None
+    \item output $:= $ displays the posts information based on the followings of the user, to the screen.
+    \item exception : If user does not exist, raise InvalidUser alert
+\end{itemize}
+
+
+
+
+\newpage
+\section* {AddFollowers Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for adding users to the current logged in users' followings list.
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         AddFollowers() & db: db\_object, username: str, user\_to\_follow: str, user\_token: str  & GUI & InvalidUser Alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+None
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+Already logged in
+
+\subsubsection{Access Program Semantics}
+AddFollowers(db, current\_user, user\_to\_follow, user\_token)
+\begin{itemize}
+    \item transition: Appends the user\_to\_follow to the current\_users' followers list
+    \item output $:= $ success message to the screen
+    \item exception : If user does not exist, raise InvalidUser Alert.
+\end{itemize}
+
+
+
+
+
+\newpage
+\section* {DeleteAccount Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for deleting the logged in users' account.
+
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         DeleteAccount() & firebase: firebase\_object, db: db\_object, username: str, current\_user: str, user\_token: str  & GUI & None\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+None
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User already logged in
+
+\subsubsection{Access Program Semantics}
+DeleteAccount()
+\begin{itemize}
+    \item transition: Removes the account from the firebase DB along with any posts associated with the user from the AllPosts branch and profile branches
+    \item output $:= $ Success message to the screen.
+    \item exception : None
+\end{itemize}
+
+
+
+
+
+
+\newpage
+\section* {DeleteFollowers Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for deleting the followers for a given user.
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         DeleteFollowers() & db: db\_object, username: str, current\_user: str, user\_to\_remove: str, user\_token: str  & GUI & InvalidUser Alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+None
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+Already logged in
+
+\subsubsection{Access Program Semantics}
+DeleteFollowers(db, current\_user, user\_to\_remove, user\_token)
+\begin{itemize}
+    \item transition: Remove the user\_to\_remove from the current\_users' followings list.
+    \item output $:= $ Success message to the screen.
+    \item exception : If user to remove does not exist in the current\_users' following list, then raise InvalidUser Alert.
+\end{itemize}
+
+
+
+
+
+
+\newpage
+\section* {EditLocation Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for updating the location of the logged in users' profile.
+
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         EditLocation() & db: db\_object, username: str, new\_location: str, user\_token: str  & GUI & InvalidLocation Alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+None
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User already logged in
+\subsubsection{Access Program Semantics}
+EditLocation(db, username, user\_token, new\_location)
+\begin{itemize}
+    \item transition: Updates location of the currently authenticated user in the database.
+    \item output $:= $ Success message to the GUI
+    \item exception : If inputted location is empty, raise InvalidLocation Alert
+\end{itemize}
+
+
+
+
+
+
+\newpage
+\section* {EditName Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for updating the name information of the current logged in users' profile.
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         EditName() & db: db\_object, username: str, new\_name: str, user\_token: str  & GUI & InvalidName Alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+\subsubsection{State Invariant}
+
+\subsubsection{Assumptions}
+
+\subsubsection{Access Program Semantics}
+EditName(db, username, user\_token, new\_name)
+\begin{itemize}
+    \item transition: Updates name of the currently authenticated user in the database.
+    \item output $:= $ Success message to the GUI
+    \item exception : If inputted name is empty, raise InvalidName Alert
+\end{itemize}
+
+
+
+
+
+\newpage
+\section* {QueryFollowers Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for Querying existing the followers list for a given user.
+
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         QueryFollowing() & db: db\_object, username: str, user\_token: str  & List[String] & InvalidUser Alert\\
+        \hline
+         QueryFollowers() & db: db\_object, username: str, user\_token: str  & List[String] & InvalidUser Alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User already logged in.
+
+\subsubsection{Access Program Semantics}
+QueryFollowing(db, username,user\_token)
+\begin{itemize}
+    \item transition: None
+    \item output $:= $ Returns the followings list of a user containing the usernames that they follow.
+    \item exception : If user does not exist or is invalid, raise InvalidUser Alert.
+\end{itemize}
+
+QueryFollowers(db, username,user\_token)
+\begin{itemize}
+    \item transition: 
+    \item output $:= $ Returns the followers list of the user containing the usernames that follow them.
+    \item exception : If user does not exist or is invalid, raise InvalidUser Alert.
+\end{itemize}
+
+
+
+
+
+
+\newpage
+\section* {QueryProfile Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+firebase\_creds
+
+\subsection* {Brief Description}
+Used for Querying the profile of a given user.
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         QueryProfile() & db: db\_object, username: str, user\_token: str  & Hashmap[String: String] & InvalidUser Alert\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+None
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User already logged in.
+
+\subsubsection{Access Program Semantics}
+QueryProfile(db, username, user\_token)
+\begin{itemize}
+    \item transition: None
+    \item output $:= $ Returns a Python Dictionary (Hashmap) of the profile information(posts, location, name) for the given username.
+    \item exception : If username is invalid or does not exist, raise InvalidUser Alert.
+\end{itemize}
+
+
+
+
+
+
+\newpage
+\section* {ViewFollowers Module}
+
+\subsection*{Module}
+
+\subsection* {Uses}
+
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         ViewFollowers() & db: db\_object, username: str, user\_token: str  & GUI & UnknownUsername, NoFollowers\\
+        \hline
+         ViewFollowing() & db: db\_object, username: str, user\_token: str  & GUI & UnknownUsername, NoFollowing\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User already logged in.
+
+\subsubsection{Access Program Semantics}
+ViewFollowers(db, username,user\_token)
+\begin{itemize}
+    \item transition: None
+    \item output: Follower list for given user
+    \item exception: If there is no user with given username raise UnknownUsername \& if there is no followers for the given user raise NoFollowers exception.
+\end{itemize}
+
+ViewFollowing(db, username,user\_token)
+\begin{itemize}
+    \item transition: None
+    \item output: Following list for given user
+    \item exception: If there is no user with given username raise UnknownUsername \& if the given user does not follow anyone raise NoFollowing exception.
+\end{itemize}
+
+
+
+\newpage
+\section* {ViewProfile Module}
+\subsection*{Module}
+
+\subsection* {Uses}
+
+
+\subsection* {Interface Syntax}
+\subsubsection* {Exported Constants}
+None
+
+\subsubsection* {Exported Types}
+None
+
+\subsubsection* {Exported Access Programs}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{4.5cm}|}
+        \hline
+        \textbf{Routine Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+        \hline
+         ViewProfile() & db: db\_object, username: str, user\_token: str  & GUI & UnknownUsername\\
+        \hline
+    \end{tabular}
+    % \label{tab:scrumbot}
+\end{table}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+
+\subsubsection{Environmental Variables}
+Input: Keyboard\\
+Display: Screen
+
+
+\subsubsection{State Invariant}
+None
+
+\subsubsection{Assumptions}
+User already logged in.
+
+\subsubsection{Access Program Semantics}
+ViewProfile(db, username,user\_token)
+\begin{itemize}
+    \item transition: None
+    \item output: Profile information of the given user.
+    \item exception: If there is no user with given username raise UnknownUsername.
+\end{itemize}
+\end{document}

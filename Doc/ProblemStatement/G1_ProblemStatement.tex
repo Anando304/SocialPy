@@ -1,0 +1,112 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{cite}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{extarrows}
+\usepackage{setspace}
+\usepackage{adjustbox}
+\usepackage{hyperref}
+
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\title{SE 3XA3: Problem Statement\\SocialPy}
+
+\author{
+	Team 1, SocialPy
+		\\ Anando Zaman, zamana11
+        \\ Graeme Woods, woodsg1
+        \\ Yuvraj Randhawa, randhawy
+        \\ Due January 28, 2021
+        \\ Tag PS-Rev.1
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{table}[!hbp]
+    \caption{Revision History} \label{RevisionHistory}
+    \begin{tabularx}{\textwidth}{llX}
+        \toprule
+            \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+        \midrule
+            January 25, 2021 & Anando Zaman & Initial draft and Problem Statement\\
+            January 26, 2021 & Yuvraj \& Graeme & Stakeholders\\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+\maketitle
+
+\newpage
+\section{Problem Statement}
+\subsection{What is the problem you're trying to solve?}
+Communication between people from different parts of the world has traditionally been conducted through phone calls. However, as the world becomes further connected, this no longer provides the same personal "touch" and often feels sub-par. Traditional phone calls are weak form of communication as it only has one purpose, to speak with a specific handful of people. The problem we are attempting to solve is to further personalize communication and allow everyone to know about each others activity/status/thoughts in real-time as well as provide meaningful insight on events/news and other information from around the globe.
+
+\subsection{Why is this an important problem?}
+This problem is important because existing general methods of communication such as phone calls provide little value as it is only used for voice communication. People are unable to know about other events or information from around the world using this method. It can also be quite difficult for people to navigate times of hardship or isolation through traditional phone calls. It is important to have a platform where people can stay connected during tough times such as the 2020/2021 pandemic which is where social media products shine as they can help people stay connected regardless of location.
+
+\subsection{What is the proposed product? What is the outcome and utility of this product?}
+The proposed product is a terminal based Python Application that allows for social media communication. This application will allow users post their current status/emotions/thoughts and share other content in the form of short 3 to 4 sentence messages. These messages will be visible under the users "activity wall" which other users will be able to see. Users will also be able to follow other users to see posts by a given user. The expected outcome is that people will be further connected and have a form of communication that is more enjoyable.
+\newpage
+
+\section{Stakeholders}
+Users that will use the application can include:
+Users with interest in the application:
+\begin{itemize}
+  \item Development Team:
+  \begin{itemize}
+      \item[] The development team is responsible for ensuring the application is built effectively, allowing users to develop an interest and create a good relation with the application. The development team aims to optimize resource usage to create the application and allow for an enhanced user experience. 
+  \end{itemize}
+  \item Product Users:
+  \begin{itemize}
+      \item[] \textcolor{red}{The product users are Dr.Bokhari and the TA(Maryam Hosseinkord). However upon deployment, it will be for the general public}. Product users expect a high quality and usable application and service. The social media application will have both active and passive users. Active users include the users that utilize the application frequently in order to communicate with others and express their various feelings, emotions, and thoughts. Passive users would use the application to simply view what other users post.  
+  \end{itemize}
+  \item Investors:
+  \begin{itemize}
+      \item[] Investors aid in the development of the application by providing capital. Investors are directly affected by the performance of the application and strive to increase the likeability and usage of the product. 
+  \end{itemize}
+  \item \sout{Regulators/Government:}
+  \begin{itemize}
+      \item[] \sout{A greater number of users on the application can lead to government authorities being able to more effectively detect bad actors and prevent plans of mischief in the real-world. The development team will work with regulators to potentially create tools that allow the reporting of bad actors and the detection of fraudulent behaviour to ensure all users are following local laws.}
+  \end{itemize}
+  \item \sout{Advertisers:}
+  \begin{itemize}
+      \item[] \sout{As our user base grows, our platform will become more appealing for companies looking to advertise and find new customers. By compiling our user's anonymized data, the development team will be able to create tools that allow advertisers to select different demographics or groups of people that are interested in a certain topics to advertise their products to.}
+  \end{itemize}
+  \item General public:
+  \begin{itemize}
+      \item[] As our application gains more widespread use, it can start to affect members of the general public who don't use our application. As society has seen with other social networks, breaking news can be shared, groups and organizations can increase their following, and notable individuals can reach their fans, followers, and critics at an extremely large scale.
+  \end{itemize}
+\end{itemize}
+
+
+\end{document}

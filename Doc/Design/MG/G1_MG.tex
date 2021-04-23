@@ -1,0 +1,492 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{cite}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{extarrows}
+\usepackage{setspace}
+\usepackage{adjustbox}
+
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+% \usepackage[round]{natbib}
+
+
+% Different Coloured Text and Strikethrough
+\usepackage{xcolor}
+\usepackage{ulem}
+
+\newcounter{acnum}
+\newcommand{\actheacnum}{AC\theacnum}
+% \newcommand{\acref}[1]{AC#1}
+\newcommand{\acref}[1]{AC\ref{#1}}
+
+\newcounter{ucnum}
+\newcommand{\uctheucnum}{UC\theucnum}
+\newcommand{\uref}[1]{UC}
+
+\newcounter{mnum}
+\newcommand{\mthemnum}{M\themnum}
+% \newcommand{\mref}[1]{M#1}
+\newcommand{\mref}[1]{M\ref{#1}}
+
+
+\title{SE 3XA3: Module Guide\\SocialPy}
+
+\author{
+	Team 1, SocialPy
+		\\ Anando Zaman, zamana11
+        \\ Graeme Woods, woodsg1
+        \\ Yuvraj Randhawa, randhawy
+        \\ Due March 18, 2021
+        \\ Tag DD-Rev.1
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\newpage
+\begin{table}[htbp]
+    \caption{Revision History} \label{RevisionHistory}
+    \begin{tabularx}{\textwidth}{llX}
+        \toprule
+            \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+        \midrule
+            March 3, 2021 & Anando Zaman & Copy template \& completed introductory section\\\\
+            March 5, 2021 & Anando Zaman & Completed section 2, 3, 4, \& 6.\\\\
+            March 6, 2021 & Anando Zaman & Some progress on section 5.\\\\
+            March 13, 2021 & Yuvraj Randhawa & 5.2.11, 5.2.12, 5.2.13, 5.2.14.\\\\
+            March 13, 2021 & Graeme Woods & Completed Section 7 - Uses Hierarchy\\\\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+\section{Introduction}
+\subsection{Introduction}
+SocialPy is a re-development of an open-source social media application using the Python programming language. The goal of the application is to further enhance the user experience by adding additional features(ex; delete posts, view followers, etc) while providing user security through authentication which was not provided in the original implementation.
+
+\subsection{Context}
+Throughout the re-development of the application, different design techniques have been considered such as modularity and information-hiding in order to develop efficient software. The purpose of this document is to describe the structure of the system and its components as modules. The focus is on the hierarchy of each of the modules along with descriptions of the system architecture via unified modelling language(UML) approaches. This should allow both future designers and maintainers to easily identify different aspects of the software and the inner-workings of how different modules communicate to solve specific tasks/problems. This document is organized as follows:
+\begin{itemize}
+    \item Section 2 contains a list of unanticipated and unlikely change
+    \item Section 3 contains the overview of the module hierarchy
+    \item Section 4 contains the Connections Between Requirements and Design.
+    \item Section 5 contains Description of each module
+    \item Section 6 contains two traceability matrices, one for connections between SRS and modules and the another for connections between anticipated changes and modules.
+    \item Section 7 contains information to visualize the relation among all modules.
+\end{itemize}
+
+\subsection{Motivation and Design Choices}
+For large software system designs, it is a good idea to decompose larger modules into smaller submodules in order to enhance code reusability, readability, and structure. It prevents a single-source of failure as the code is partitioned into several different modules conducting a different task rather than being placed into one massive file which would have otherwise been difficult to maintain and follow. Moreover, modular decomposition enables design for future changes/modifications such as adding new modules for additional functionality without disrupting majority of the system. This is important since the application will likely change and have additional features implemented based on the users' feedback. Thus, the team followed the 'design of change' pattern for the SocialPy application.\\
+
+Our design follows the rules layed out by (Parnases, 1972), as follows:
+\begin{itemize}
+\item System details that are likely to change independently should be the
+  secrets of separate modules.
+\item Each data structure is used in only one module.
+\item Any other program that requires information stored in a module's data
+  structures must obtain it by calling access programs belonging to that module.
+\end{itemize}
+
+\section{Anticipated and Unlikely Changes} \label{SecChange}
+This section lists possible changes for the SocialPy application. There are two categories for changes based on likeliness of the change which are Anticipated changes and unlikely changes. Anticipated changes are planned or probable in foreseeable future of SocialPy while unlikely changes are those that are not planned for the entire life of the application. Below describes these two categories for the application.
+
+\subsection{Anticipated Changes} \label{SecAchange}
+Below is a list of anticipated changes:
+
+\begin{description}
+\item[\refstepcounter{acnum} \actheacnum \label{ac1}:] \sout{SocialPy must be kept up-to-date with any new Python versions.} \textcolor{red}{The format of the display format of the view module as new UI functionality is added, thus the structure in how information is displayed can change.}
+\item[\refstepcounter{acnum} \actheacnum \label{ac2}:] SocialPy must be kept up-to-date with any new Firebase API versions.
+\item[\refstepcounter{acnum} \actheacnum \label{ac3}:] \sout{The hardware on which the software is running.}
+\item[\refstepcounter{acnum} \actheacnum \label{ac4}:] The format of the "help" commands as more features are added.
+\item[\refstepcounter{acnum} \actheacnum \label{ac5}:] The CommandParser module as more functionality/commands are added.
+\item[\refstepcounter{acnum} \actheacnum \label{ac6}:] \sout{The format of the Firebase(NoSQL) DB branches as more features are added.}
+\end{description}
+
+
+\subsection{Unlikely Changes} \label{SecUchange}
+Below is a list of unanticipated changes:
+
+\begin{description}
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc1}:] Login/Registeration Authentication system.
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc2}:] Input/Output devices (Input: keyboard, Output: Screen).
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc3}:] The $main.py$ controller.
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc4}:] The data query \& data display/View modules.
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc5}:] The account userID information.
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc6}:] The data structure of followers/following lists.
+\end{description}
+
+\newpage
+\section{Module Hierarchy} \label{SecMH}
+
+This section provides an overview of the module design. Modules are summarized
+in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
+below, which are leaves in the hierarchy tree, are the modules that will
+actually be implemented.
+
+\subsection{Posts subsystem modules}
+\begin{description}
+\item[\refstepcounter{mnum} \mthemnum \label{M1}] AddPost module
+\item[\refstepcounter{mnum} \mthemnum \label{M2}] DeletePost module
+\item[\refstepcounter{mnum} \mthemnum \label{M3}] EditPost module
+\item[\refstepcounter{mnum} \mthemnum \label{M4}] QueryPosts module
+\item[\refstepcounter{mnum} \mthemnum \label{M5}] ViewPost module
+\end{description}
+
+\subsubsection{Profile subsystem modules}
+\begin{description}
+\item[\refstepcounter{mnum} \mthemnum \label{M6}] AddFollowers module
+\item[\refstepcounter{mnum} \mthemnum \label{M7}] DeleteAccount module
+\item[\refstepcounter{mnum} \mthemnum \label{M8}] DeleteFollowers module
+\item[\refstepcounter{mnum} \mthemnum \label{M9}] EditLocation module
+\item[\refstepcounter{mnum} \mthemnum \label{M10}] EditName module
+\item[\refstepcounter{mnum} \mthemnum \label{M11}] QueryFollowers module
+\item[\refstepcounter{mnum} \mthemnum \label{M12}] ViewFollowers module
+\item[\refstepcounter{mnum} \mthemnum \label{M13}] QueryProfile module
+\item[\refstepcounter{mnum} \mthemnum \label{M14}] ViewProfile module
+\end{description}
+
+\subsubsection{Firebase subsystem modules}
+\begin{description}
+\item[\refstepcounter{mnum} \mthemnum \label{M15}] Authentication module
+\item[\refstepcounter{mnum} \mthemnum \label{M16}] Firebase\_creds module
+\end{description}
+
+\subsubsection{CommandParser modules}
+\begin{description}
+\item[\refstepcounter{mnum} \mthemnum \label{M17}] CommandParser module
+\item[\refstepcounter{mnum} \mthemnum \label{M18}] Main module
+\end{description}
+
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+\toprule
+\textbf{Level 1} & \textbf{Level 2}\\
+\midrule
+
+{Hardware-Hiding Module} & ~ \\
+\midrule
+
+{Behaviour-Hiding Module} & \mref{M1}\\
+& \mref{M2}\\
+& \mref{M3}\\
+& \mref{M4}\\
+& \mref{M5}\\
+& \mref{M6}\\
+& \mref{M7}\\ 
+& \mref{M8}\\
+& \mref{M9}\\
+& \mref{M10}\\ 
+& \mref{M11}\\
+& \mref{M12}\\ 
+& \mref{M13}\\
+& \mref{M14}\\
+& \mref{M15}\\ 
+& \mref{M16}\\
+\midrule
+
+{Software Decision Module} & \mref{M17}\\
+& \mref{M18}\\
+\bottomrule
+
+\end{tabular}
+\caption{Module Hierarchy}
+\label{TblMH}
+\end{table}
+
+\newpage
+\section{Connection Between Requirements and Design} \label{SecConnection}
+The SRS defines the requirements that the system design must fulfill. In Table 3, the connections between the requirements and modules are listed.
+
+\section{Module Decomposition} \label{SecMD}
+
+The modules of SocialPy are decomposed  according to the principle of ``information hiding''
+proposed by David Parnas. The goal of the decomposition is to provide a detailed description of how the system operates. The \emph{Secrets} field in a module
+decomposition is a brief statement of the design decision hidden by the
+module. The \emph{Services} field specifies \emph{what} the module will do
+without documenting \emph{how} to do it. For each module, a suggestion for the
+implementing software is given under the \emph{Implemented By} title. If the
+entry is \emph{OS}, this means that the module is provided by the operating
+system or by standard programming language libraries. 
+
+\newpage
+\subsection{Hardware Hiding Modules }
+\begin{description}
+\item[Secrets:]The data structure and algorithm used to implement the virtual
+  hardware.
+\item[Services:]Serves as a virtual hardware used by the rest of the
+  system. This module provides the interface between the hardware and the
+  software. So, the system can use it to display outputs or to accept inputs.
+\item[Implemented By:] OS
+\end{description}
+
+
+
+
+
+
+\subsection{Behaviour-Hiding Module}
+
+\subsubsection{AddPost (\mref{M1})}
+
+\begin{description}
+\item[Secrets:]Format \& structure of the Post data.
+\item[Services:]Converts input data into a post and updates the database..
+\item[Implemented By:] AddPost.py
+\end{description}
+
+\subsubsection{DeletePost (\mref{M2})}
+
+\begin{description}
+\item[Secrets:]Format \& The format/structure of the post data and algorithm/method to delete it from the database.
+\item[Services:] Obtains the input data specifying the post to remove via PostID to QueryPost module, and removes it if exists.
+\item[Implemented By:] DeletePost.py
+\end{description}
+
+\subsubsection{EditPost (\mref{M3})}
+\begin{description}
+\item[Secrets:]Format \& Data structure of post data and method of editing it.
+\item[Services:] Queries the data for a given PostID and edits the contents.
+\item[Implemented By:] EditPost.py
+\end{description}
+
+\subsubsection{QueryPosts (\mref{M4})}
+\begin{description}
+\item[Secrets:]Format \& Data structure of post data and method to query it.
+\item[Services:] Queries the data for a given PostID.
+\item[Implemented By:] QueryPosts.py
+\end{description}
+
+\subsubsection{ViewPost (\mref{M5})}
+\begin{description}
+\item[Secrets:]Format \& The format and structure of data being displayed to the screen.
+\item[Services:] Prints the data queried from a post.
+\item[Implemented By:] ViewPost.py
+\end{description}
+
+\subsubsection{AddFollowers (\mref{M6})}
+\begin{description}
+\item[Secrets:]Format \& The format and structure of data used for containing the the follower/following names.
+\item[Services:] Updates the followers/following lists by adding the user\_to\_follow in the following list, if user is valid and exists.
+\item[Implemented By:] AddFollowers.py
+\end{description}
+
+\subsubsection{DeleteFollowers (\mref{M7})}
+\begin{description}
+\item[Secrets:]Format \& The format and structure of data used for containing the the follower/following names.
+\item[Services:] Update the following/followers list by removing the users' name.
+\item[Implemented By:] DeleteFollowers.py
+\end{description}
+
+\subsubsection{QueryFollowers (\mref{M11})}
+\begin{description}
+\item[Secrets:]Format \& The format and structure of data used for containing the the follower/following names.
+\item[Services:] Query the followers or following list of a given user if the username is valid.
+\item[Implemented By:] QueryFollowers.py
+\end{description}
+
+\subsubsection{ViewFollowers (\mref{M12})}
+\begin{description}
+\item[Secrets:]Format \& The format and structure of the followers/following list data displayed to the screen.
+\item[Services:] Print the follower/following information to the screen.
+\item[Implemented By:] ViewFollowers.py
+\end{description}
+
+\subsubsection{DeleteAccount (\mref{M8})}
+\begin{description}
+\item[Secrets:]Format \& The format and data structure used to hold the account information.
+\item[Services:] Permanently removes the account of the user off of the database system.
+\item[Implemented By:] DeleteAccount.py
+\end{description}
+
+\subsubsection{EditLocation (\mref{M9})}
+\begin{description}
+\item[Secrets:] Format \& The format and data structure used to store the location
+\item[Services:] Updates the users location.
+\item[Implemented By:] EditLocation.py
+\end{description}
+
+\subsubsection{EditName (\mref{M10})}
+\begin{description}
+\item[Secrets:] Format \& The format and data structure used to store the name
+\item[Services:] Update the users name.
+\item[Implemented By:] EditName.py
+\end{description}
+
+\subsubsection{QueryProfile (\mref{M13})}
+\begin{description}
+\item[Secrets:] Format \& The format and structure of data used for containing the profile information.
+
+\item[Services:] Extracts profile related information from the database.
+\item[Implemented By:] QueryProfile.py
+\end{description}
+
+\subsubsection{ViewProfile (\mref{M14})}
+\begin{description}
+\item[Secrets:] Format \& The format and structure of the profile data displayed to the screen.
+\item[Services:] Print the profile information to the screen.
+\item[Implemented By:] ViewProfile.py
+\end{description}
+
+\subsubsection{Authentication (\mref{M15})}
+\begin{description}
+\item[Secrets:] The format and data structure of the Authentication credentials
+\item[Services:] Authenticate the user given their account credentials.
+\item[Implemented By:] Authentication.py
+\end{description}
+
+\subsubsection{FirebaseCreds (\mref{M16})}
+\begin{description}
+\item[Secrets:] The format and data structure of the Firebase variables.
+\item[Services:] Establishes a connection to the database and executes commands for communication.
+\item[Implemented By:] Firebasecreds.py
+\end{description}
+
+
+\subsection{Software Decision Module}
+\subsubsection{CommandParser (\mref{M17})}
+\begin{description}
+\item[Secrets:] The format of the command input and method to parse into specific commands.
+\item[Services:] Provides a means of conducting the different actions of the app(ie; addPost, ViewPost, etc) by parsing the commands.
+\item[Implemented By:] CommandParser.py
+\end{description}
+
+\subsubsection{Main (\mref{M18})}
+\begin{description}
+\item[Secrets:] Method to retrieve input data and run as an executable application.
+\item[Services:] Passes data amongst all the different modules to keep them interconnected in order to facilitate communication.
+\item[Implemented By:] Main.py
+\end{description}
+
+\section{Traceability Matrix} \label{SecTM}
+
+This section shows two traceability matrices: between the modules and the requirements and between the modules and the anticipated changes. These traceability matrices are shown on table 3 \& 4 respectively.
+
+% the table should use mref, the requirements should be named, use something
+% like fref
+\begin{table}[htbp]
+\centering
+\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+\toprule
+\textbf{Req.} & \textbf{Modules}\\
+\midrule
+FR1 & \mref{M16}\\
+FR2 & \mref{M15}, \mref{M16}\\
+FR3 & \mref{M15}, \mref{M16}\\
+FR4 & \mref{M4}, \mref{M5}\\
+FR5 & \mref{M4}, \mref{M2}\\
+FR6 & \mref{M15}, \mref{M16}\\
+FR7 & \mref{M11}, \mref{M12}\\
+FR8 & \mref{M2}\\
+FR9 & \mref{M3}, \mref{M4}\\
+FR10 & \mref{M17}\\
+FR11 & \mref{M13}, \mref{M14}\\
+FR12 & \mref{M9}\\
+FR13 & \mref{M10}\\
+FR14 & \mref{M7}\\
+FR15 & \mref{M8}\\
+FR16 & \mref{M11}, \mref{M12}\\
+NFR1 & \mref{M18}, \mref{M5}, \mref{M12}, \mref{M14}\\
+NFR2 & \mref{M17}\\
+NFR3 & \mref{M18}\\
+NFR5 & \mref{M17}, \mref{M18}\\
+NFR6 & \mref{M18}, \mref{M5}, \mref{M12}, \mref{M14}\\
+NFR7 & \mref{M4}\\
+NFR8 & \mref{M15}\\
+NFR9 & \mref{M4}\\
+NFR10 & \mref{M1}\\
+NFR12 & \mref{M1}, \mref{M2}, \mref{M3}, \mref{M4}, \mref{M5}\\
+NFR16 & \mref{M16}\\
+NFR19 & \mref{M18}\\
+NFR24 & \mref{M17}\\
+NFR25 & \mref{M17}\\
+NFR28 & \mref{M15}\\
+NFR29 & \mref{M15}, \mref{M4}, \mref{M5}\\
+NFR30 & \mref{M15}, \mref{M1}\\
+NFR31 & \mref{M15}\\
+NFR32 & \mref{M18}, \mref{M5}, \mref{M12}, \mref{M14}\\
+\bottomrule
+\end{tabular}
+\caption{Trace Between Requirements and Modules}
+\label{TblRT}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+\toprule
+\textbf{AC} & \textbf{Modules}\\
+\midrule
+\acref{ac1} & None\\
+\acref{ac2} & None\\
+\acref{ac3} & None\\
+\acref{ac4} & \mref{M17}\\
+\acref{ac5} & \mref{M17}\\
+\acref{ac6} & None\\
+\bottomrule
+\end{tabular}
+\caption{Trace Between Anticipated Changes and Modules}
+\label{TblACT}
+\end{table}
+
+\newpage
+\section{Use Hierarchy Between Modules} \label{SecUse}
+
+In this section, the uses hierarchy between modules is
+provided. Figure \ref{FigUH} illustrates the use relation between
+the modules. It can be seen that the graph is a directed acyclic graph
+(DAG). Each level of the hierarchy offers a testable and usable subset of the
+system, and modules in the higher level of the hierarchy are essentially simpler
+because they use modules from the lower levels.\\
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{UsesHierarchy.png}
+\caption{Use hierarchy among modules}
+\label{FigUH}
+\end{figure}
+
+\newpage
+\section{Schedule}
+Implementation dates of the modules along with team members responsible are available in the Gantt chart. Specific testing activities and development are listed in detail there.\\
+
+Gantt chart provided here: \href{https://gitlab.cas.mcmaster.ca/zamana11/se3xa3-project/-/tree/master/ProjectSchedule)}{https://gitlab.cas.mcmaster.ca/zamana11/se3xa3-project/-/tree/master/ProjectSchedule}.
+
+%section*{References}
+
+\bibliographystyle {plainnat}
+\bibliography {MG}
+David L. Panas. On the crieria to be used in decomposing systems into modules. Comm.ACM, 15(2):1053 1058, December 1972\\
+
+D.L. Parnas, P.C. Clement, and D. M. Weiss, The modular structure of complex systems. In International Conference on Software Engineering, pages 408-419, 1984.
+
+\end{document}

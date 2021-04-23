@@ -1,0 +1,594 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{cite}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{extarrows}
+\usepackage{setspace}
+\usepackage[normalem]{ulem}
+\geometry{a4paper, portrait, margin=1in}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    urlcolor=cyan,
+}
+\usepackage[round]{natbib}
+
+\title{SE 3XA3: Software Requirements Specification\\SocialPy}
+
+\author{
+	Team 1, SocialPy
+		\\ Anando Zaman, zamana11
+        \\ Graeme Woods, woodsg1
+        \\ Yuvraj Randhawa, randhawy
+        \\ Due February 12, 2021
+        \\ Tag SRS-Rev.1
+}
+
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+
+\begin{table}[!hbp]
+    \caption{Revision History} \label{TblRevisionHistory}
+    \begin{tabularx}{\textwidth}{llX}
+        \toprule
+            \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+        \midrule
+            February 4, 2021 & Anando Zaman & Copy template.\\
+            February 5, 2021 & Anando Zaman & Worked on Project Drivers section and beginning of functional reqs section and some use cases.\\
+            February 9, 2021 & Anando Zaman & Completed the Project Issues section. Made progress on some of the NFRs section. Completed Project Drivers Section\\
+            February 11, 2021 & Yuvraj Randhawa & Completed the Functional requirements and use case sections.\\
+            February 11, 2021 & Graeme Woods & NFRs section \& Off-the-Shelf Solutions\\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+
+This document describes the requirements for SocialPy.  The template for the Software Requirements Specification (SRS) is a subset of the Volere template 
+% ~\cite{volere-template}
+
+\section{Project Drivers}
+
+\subsection{The Purpose of the Project}
+Social media user adoption has increased drastically over the past few years as the world becomes further digitally connected. Communication between people from different parts of the world has traditionally been conducted through phone calls. However, this no longer provides the same personal "touch" and often feels sub-par. The purpose of this project is to re-implement an open-source social media application with extended features that create a better and more personal user experience. This app will allow users from all over the world to communicate via short text posts such as about their current status or location-based information. Additionally, the app will feature account authentication to ensure the integrity of the users posts. 
+
+\subsection{The Stakeholders}
+
+\subsubsection{The Client}
+The clients for this project include Dr. Ashghar Bokhari (Professor of SE 3XA3 course) along with the TA for this course (Maryam Hosseinkord, \sout{Justeen Randev, Shardool Patel, etc}).
+
+\subsubsection{The Customers}
+The customers for this project will be any person or public/private entity that is seeking ways to improve communication amongst each other and the general public. This can include everyday people (general public), Media outlets such as news channels, and firms who want to further increase their presence for advertising online. The general public will use this for general communication while news channels will be using it for sharing headlines from around the globe. Advertisement firms can use it to posts ads to entice users to buy their products. 
+
+\subsubsection{Other Stakeholders}
+N/A
+
+\subsection{Mandated Constraints}
+\subsubsection{Solution Constraints}
+\textbf{Description:} The product shall be written in the Python 3\\ programming language.\\
+\textbf{Rationale:} All developers are familiar with Python 3 and there is an existing API available to communicate with the Firebase database.\\
+\textbf{Fit criterion:} The software is written in Python 3.\\
+
+\textbf{Description:} The product shall function only when connected to the internet.\\
+\textbf{Rationale:} The product actively retrieves data via the Firebase Database API and as such, requires a stable internet connection.\\
+\textbf{Fit criterion:} The product will display an error if no internet connection detected.\\
+
+\subsubsection{Implementation Environment of the current system}
+The application will be cloned from the gitlab repo and executed via the IDE of the user's choice. Examples include PyCharm, VS Code, Python IDLE. The $main.py$ file will be executed in order to interact with the program.
+
+\subsubsection{Partner or Collaborative Applications}
+The product will use the Firebase Cloud Database and Firebase API to store and retrieve user account data.
+
+\subsubsection{Off-the-shelf software}
+The following off-the-shelf software will be utilized:
+\begin{itemize}
+    \item Firebase API for Python (Available \href{https://github.com/thisbejim/Pyrebase)}{here}).
+    \item Python 3 (Available \href{https://www.python.org/downloads/)}{here})
+    \item PyCharm IDE (available \href{https://www.jetbrains.com/pycharm/download/#section=windows)}{here}) 
+\end{itemize}
+
+\subsubsection{Anticipated Workplace Environment}
+The product can be used on any desktop machine that is capable of executing Python Scripts and has an internet connection.
+
+\subsubsection{Enterprise Constraints}
+The product will be available for use to any user or organization that has Python3 and the Firebase API dependencies installed.
+
+\subsubsection{Budget Constraints}
+Budget constraints do not apply to this project as it is free for a small set of users. However in the long-term, a license or database credit has to be purchased from Firebase if the number of API write requests exceeds 20K/day or read requests exceed 50K/day. The quota and pricing is a pay-as-you go model and more information can be found \href{https://firebase.google.com/pricing)}{here}, regarding infrastrucure costs.
+
+\subsubsection{Schedule Constraints}
+The project deliverables must be completed by their respective deadlines. The upcoming deadlines include:
+\begin{itemize}
+    \item Proof of Concept (POC) - February 21, 2021
+    \item Test Plan, Revision 0 - March 5, 2021
+    \item Design \& Documentation, Revision 0 - March 18, 2021
+    \item Revision 0 Demonstration - March 22, 2021
+    \item Final Demonstration - April 5, 2021
+    \item Final Documentation - April 12, 2021
+\end{itemize}
+
+\newpage
+\subsubsection{Naming Conventions and Terminology}
+\begin{table}[h]
+    \caption{Naming Conventions and Terminology}
+    \centering
+    \begin{tabular}{ |p{5cm}|p{10.5cm}|  }
+     \hline
+     \textbf{Term} & \textbf{Definition} \\
+     \hline
+     Product & Social-Media-Terminal App \\
+     \hline
+     OS & Operating system\\
+     \hline
+     FireBase & Cloud Database provider\\
+     \hline
+     User & The person using the product\\
+     \hline
+     API & Application Programming Interface\\
+     \hline
+     Python & Computer Programming Language\\
+     \hline
+     Repo & Repository of information\\
+     \hline
+     GitLab & A type of Repo for Version control\\
+     \hline
+     BE & Business Event\\
+    \hline
+     App & Short for application\\
+    \hline
+     Clone & Copy the contents from a repository to local storage\\
+     \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Relevant Facts and Assumptions}
+It is assumed that the user will have a stable internet connection and is able to comprehend the English language and Alphabet. The original project has roughly 1100 lines of code. It is assumed that the user has a desktop with at least a keyboard or mouse to interface with the application and that their hardware is capable of running Python 3.
+
+\section{Functional Requirements}
+
+\subsection{The Scope of the Work and the Product}
+SocialPy is a terminal-based social media application developed using the Python programming language. This application will facilitate the process of communication of several users in a format similar to a online thread/forum. Users post their current status/emotions/thoughts and any other content in the form of short 3 to 4 sentence messages. These messages will be visible under the users "activity wall" which other users will be able to view. Additionally, users will be able to follow other users and view the content they post. The expected outcome is that people will be further connected and have a form of communication that is more enjoyable.
+
+\subsubsection{The Context of the Work}
+This product is designed to be used by the general public and large organizations such as advertisers and news outlets. This is in an effort to communicate their content across to hundreds of thousands of people that are all using the application.
+In the original code of the product, there was a lack of user security as anyone could post messages on behalf of someone else simply by using their username. There was no user authentication involved which resulted in significant repudiation and data integrity issues. In addition, the lack of data persistence drastically reduced functionality of the application as the user data activity would be erased once the application was closed. The goal of SocialPy is to solve these shortcomings and develop a more refined product that ensures data integrity and persists the data so that it does not get erased. In addition, several new features like delete post and view profile will also be added to further enrich the user experience.
+
+
+\subsubsection{Work Partitioning}
+
+\begin{enumerate}
+    \item User attempts to login/register
+    \item User attempts to post information.
+    \item User attempts to view list of recent posts.
+    \item User attempts to follow another user
+    \item User attempts to remove a post
+    \item User attempts find another user
+\end{enumerate}
+
+
+\subsubsection{Individual Product Use Cases}
+\textbf{Use case 1}\\
+\textbf{Title:} Registering an account to the server\\
+\textbf{Trigger:} User wants to create an account to use the app.\\
+\textbf{Pre-condition:} User has a stable internet connection.\\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item System asks for username and password credentials
+        \item User inputs the information
+        \item System sends the credentials to the Firebase Authentication server to validate information.
+        \item System returns with PASS or FAIL state for authentication.
+        \item If PASS state, system transitions to homescreen.
+        \item If FAIL state, system re-prompts the user. 
+    \end{itemize}
+    
+\textbf{Use case 2}\\
+\textbf{Title:} Create user session (login)\\
+\textbf{Trigger:} User wants to login and utilize the app.\\
+\textbf{Pre-condition:} User has registered an account to the server and has a stable internet connection \\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item System asks for username and password credentials
+        \item User inputs the information
+        \item System sends the credentials to the Firebase Authentication server to validate information
+        \item System returns with PASS or FAIL state for authentication
+        \item If PASS state, system transitions to homescreen
+        \item if FAIL state, system re-prompts the user to input correct username or password
+    \end{itemize}
+    
+\textbf{Use case 3}\\
+\textbf{Title:} End user session (logout)\\
+\textbf{Trigger:}User wants to end their active session\\
+\textbf{Pre-condition:} User has created a session and has a stable internet connection\\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item User inputs ``LOGOUT" into the system
+        \item System ends the session the user has created and returns them to the starting screen
+    \end{itemize}
+    
+\textbf{Use case 4}\\
+\textbf{Title:} User view posts\\
+\textbf{Trigger:} User wants to view either their or another user's posts\\
+\textbf{Pre-condition:} User must create a session and have a stable internet connection\\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item User inputs ``POSTS VIEW" followed by the username of the profile that they want to view posts of
+        \item System sends the username to the Firebase server to verify whether the username is registered
+        \item If the username is registered, the posts will be displayed along with the identification number of each post
+        \item If the username is not registered, the system will re-prompt the user to input a registered username.
+    \end{itemize}
+    
+\textbf{Use case 5}\\
+\textbf{Title:} User add posts\\
+\textbf{Trigger:} User wants to add new posts\\
+\textbf{Pre-condition:} User must create a session and have a stable internet connection\\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item User inputs ``POSTS ADD" followed by the content of the post
+        \item The system will send the content of the post to the Firebase server
+        \item The post will be created and given a unique identification number 
+    \end{itemize}
+    
+    
+\textbf{Use case 6}\\
+\textbf{Title:} User updates posts\\
+\textbf{Trigger:} User wants to update existing posts\\
+\textbf{Pre-condition:} User must create a session, have at least one existing post and have a stable internet connection\\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item User inputs ``POSTS UPDATE" followed by the identification number of the post and the new content the post will contain
+        \item The system will send the identification number of the post to the Firebase server
+        \item The server will verify whether there exists a post created by the current user with the identification number specified
+        \item If there does not exist such a post, the system will inform the user that no such post either exists, or is registered to the current user
+        \item If there does exist such a post, the content will be modified with the content inputted by the user
+    \end{itemize}
+    
+\textbf{Use case 7}\\
+\textbf{Title:} User deletes post\\
+\textbf{Trigger:} User wants to remove an existing post\\
+\textbf{Pre-condition:} User must create a session, have at least one existing post and have a stable internet connection\\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item User inputs ``POST DELETE" followed by the identification number of the post
+        \item The system will send the identification number of the post to the Firebase server
+        \item The server will verify that there exists a post created by the current user with the identification number specified
+        \item If there does not exist such a post, the system will inform the user that no such post is registered to the current user
+        \item If there does exist such a post, the post will be deleted
+    \end{itemize}
+    
+    
+\textbf{Use case 8}\\
+\textbf{Title:} Follow User\\
+\textbf{Trigger:} User wants to follow another user\\
+\textbf{Pre-condition:} User must create a session and have a stable internet connection\\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item User inputs ``PROFILE FOLLOW" followed by the username of the profile they want to follow
+        \item The system will send the username to the Firebase server
+        \item The server will verify that a profile with the specified username exists
+        \item If there exists such a profile, the user will now be following the user that they inputted
+        \item If there does not exist such a profile, the system will inform the user that no such user exists
+    \end{itemize}
+    
+    
+\textbf{Use case 9}\\
+\textbf{Title:} View User Profile\\
+\textbf{Trigger:} User wants to view profile of another user\\
+\textbf{Pre-condition:} User must create a session and have a stable internet connection\\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item User inputs ``PROFILE VIEW" followed by the username of the profile they want to find
+        \item The system will send the username to the Firebase server
+        \item The server will verify that a profile with the specified username exists
+        \item If there does not exist such a profile, the user will be informed that no such user exists.
+        \item If there exists such a profile, the system will display the= information(location, name, followers) of the user that they searched for.
+    \end{itemize}
+    
+\textbf{Use case 10}\\
+\textbf{Title:} Edit Profile\\
+\textbf{Trigger:}\\
+\textbf{Pre-condition:} User must create a session and have a stable internet connection\\
+\textbf{Scenario/outcome:}
+    \begin{itemize}
+        \item User inputs ``PROFILE EDIT"
+        \item The system allows the user to change their full name
+        \item The system sends the updated information to the Firebase server 
+    \end{itemize}
+
+\subsection{Functional Requirements}
+
+\begin{enumerate}[{\textcolor{red}{FR}}1.]
+    \item  The system shall be able to retrieve user data via the FireBase API.
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The data from Firebase is what is being used to conduct actions such as authentication, posting, viewing posts.}
+            
+        \end{itemize}
+    \item The system shall be able to authenticate the user
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: Authentication is required so ensure data integrity and to prevent unauthorized access to an account.}
+        \end{itemize}
+    \item The system shall be able to register new users.
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: New users must have an account in order to interact with the system, otherwise it would be difficult to identify who made a post.}
+        \end{itemize}
+    \item The system shall be able to retrieve posts by username
+        \begin{itemize}
+            \item \textcolor{red}{ Rationale: The user may want to view the posts by other users. Each username is associated with a profile and posts, thus information must be retrievable via username.}
+        \end{itemize}
+    \item The system shall be able to delete posts by the author
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user may change their mind and want to delete a post at anytime, thus ability to delete posts is necessary.}
+        \end{itemize}
+    \item The system shall be able to reset the users password
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: In case the user forgets their password, the system will provide a way to reset it via email verification.}
+        \end{itemize}
+    \item The system shall be able to allow users to follow other users
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user must be able to follow others so that they know who to get their favourite content from.}
+        \end{itemize}
+    \item The system shall be able to allow users to make posts
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: Since this is a social media app, each user will likely want to make some posts. As such, the system MUST have this ability. Otherwise, the application becomes useless.}
+        \end{itemize}
+    \item The system shall be able to allow users to update their posts
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user may want to edit their posts at anytime if they changed their mind about something they posted earlier.}
+        \end{itemize}
+    \item The system shall have short messages to indicate what specific commands do.
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user will need to know what specific commands are in order to use the application. Otherwise, it becomes difficult if user were to guess and check.}
+        \end{itemize}
+    \item The system shall allow users to view profile information(name, location, followers) about other users.
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user must be able to view this information, otherwise they will not know who they are following or who to follow.}
+        \end{itemize}
+        
+    \item The system shall allow users to edit their profile location.
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user may change their location and want to ensure the most up-to-date information is available for others to view.}
+        \end{itemize}
+        
+    \item The system shall allow users to edit their name.
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user may change want to change their name or hide it with something else just because they want to.}
+        \end{itemize}
+        
+    \item The system shall allow users to delete their account.
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user may want to stop using social media altogether and do not want an online prescence on the platform.}
+        \end{itemize}
+        
+    \item The system shall allow users to delete followers.
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user may change their mind about following someone.}
+        \end{itemize}
+        
+    \item The system shall allow users to find/view followers of a given user.
+        \begin{itemize}
+            \item \textcolor{red}{Rationale: The user may just be curious or want to find mutual friends that someone else follows.}
+        \end{itemize}
+    
+\end{enumerate}
+
+\section{Non-functional Requirements}
+
+\subsection{Look and Feel Requirements}
+\subsubsection{Appearance Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1. ]
+        \item The system shall follow a command-line text based UI.
+    \end{enumerate}
+\subsubsection{Style Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{1}
+        \item The system shall use short and descriptive labels.
+        \item The system shall display black and white text.
+    \end{enumerate}
+\subsection{Usability and Humanity Requirements}
+\subsubsection{Ease of Use Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{3}
+        \item The system shall be used by any person ages 13 and over. \textcolor{red}{Fit Criterion: if 80\% of users said they are 13 years old or older and had neutral or positive experience in regards to difficulty}
+        \sout{The system shall have short messages to indicate what specific commands do.}
+        \item The system shall be easy to navigate and use such that the user is able to their desired action in under 15 seconds.
+    \end{enumerate}
+\subsubsection{Personalization and Internationalization Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{5}
+        \item The system shall have all text written using the English alphabet and language.
+    \end{enumerate}
+
+\subsection{Performance Requirements}
+\subsubsection{Speed Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{6}
+        \item The system shall query posts and profiles within 2 seconds.
+        \item The system shall be able to authenticate the user within 4 seconds.
+    \end{enumerate}
+\subsubsection{Precision or Accuracy Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{8}
+        \item The system shall be able to retrieve/update timestamp of posts data in YY/MM/DD HH:MM:SS format up to 2 decimal places.
+        \item \sout{The system shall allow a maximum of 200 characters for a given post.}
+    \end{enumerate}
+\subsubsection{Reliability and Availability Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{10}
+        \item The system shall \sout{have} be available with 99\% up-time. The remaining 1\% will be used for maintenance and updates.
+    \end{enumerate}
+\subsubsection{Scalability or Extensibility Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{11}
+        \item The system shall be able to handle user interactions \sout{thousands of users concurrently} \textcolor{red}{by at minimum five users concurrently.}
+        \item The database shall be able to increase its storage memory if greater number of users and posts activity occur.
+    \end{enumerate}
+
+\subsection{Operational and Environmental Requirements}
+\subsubsection{Expected Physical Environement}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{13}
+        \item The system shall be operated from a desktop or laptop using Windows, Mac OS, Linux, or any other system that supports Python.
+        \item The system shall be in an environment that has internet access.
+    \end{enumerate}
+\subsubsection{Requirements for interfacing with Adjacent Systems}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{15}
+        \item The system shall be able to communicate with the Firebase Database.
+    \end{enumerate}
+\subsubsection{Installability requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{16}
+        \item The system shall not need to be installed on the users' machine.
+        \item The system shall be a simple "clone" of the Gitlab repository.
+        \item The system shall be executable via Python in under 2 seconds.
+    \end{enumerate}
+\subsubsection{Release requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{19}
+        \item The product shall be released on Gitlab repo with updates every month based on user feedback and feature requests.
+    \end{enumerate}
+    
+\subsection{Maintainability and Support Requirements}
+\subsubsection{Maintenance Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{20}
+        \item Our entire team will be required to make changes and improvements over the lifespan of the product.
+        \item Bug fixes will need to be made as issues are found through customers using the software.
+        \item Our project will likely have improvements and new features that must also be implemented to stay compatible with new devices. This will be essential to product maintenance.
+    \end{enumerate}
+\subsubsection{Supportability Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{23}
+        \item Our software will have a 'help' command that can be run to show the user a list of commands that can be executed.
+        \item This 'help' command will be run automatically after the user opens the software for the first time and will act as the tutorial.
+    \end{enumerate}
+\subsubsection{Longevity Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{25}
+        \item The project will have a long lifespan and because it doesn't use any 3rd party API's (other than our Firebase database) there is a low likelihood of a external change breaking our application.
+        \item As computers evolve, there may be a future OS update that will be incompatible with our software.
+    \end{enumerate}
+\subsection{Security Requirements}
+\subsubsection{Access and Confidentiality Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{27}
+        \item Passwords associated with a username shall be hashed and unavailable from the general public to ensure confidentiality.
+        \item Only users with a registered account shall be able to view posts.
+    \end{enumerate}
+\subsubsection{Integrity Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{29}
+    \item The system shall only allow authenticated users to post via their unique immutable username.
+        \item The system shall timeout if more than 5 failed login attempts have been made consecutively.
+    \end{enumerate}
+\subsection{Cultural Requirements}
+    \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{31}
+        \item The system shall use Canadian English spelling.
+    \end{enumerate}
+\subsection{Legal Requirements}
+        \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{32}
+        \item The system shall not violate any copyright terms.
+        \item The system shall prohibit all forms of offensive content.
+        \item The system shall allow freedom of speech unless it is related to offensive content.
+    \end{enumerate}
+\subsection{Health and Safety Requirements}
+        \begin{enumerate}[{\textcolor{red}{NFR}}1.]
+    \setcounter{enumi}{35}
+        \item The system shall remove/deactivate users who promote cyber-bullying and organized crime \sout{or other actions of that sort}.
+    \end{enumerate}
+
+
+\section{Project Issues}
+
+\subsection{Open Issues}
+\subsubsection{Python3 and Firebase future support}
+As the Python language continously evolves with incremental updates year over year, it is unclear whether the current version of Python (Python 3) would be discontinued. Discontinuation of the current version could cause harm to the product as it can result in outdated libraries that no longer function as expected. For example, the Firebase API library is designed for Python 3. As new versions of Python and Firebase release in the future, there is no gurantee the same functionality or methods would still work. Since Firebase is a cloud platform, the application uses a dedicated Firebase API to communicate with the database in order to retrieve the data. If Firebase undergoes changes, it can impact the application as it may cause some friction when trying to work with deprecated code.
+
+\subsection{Off-the-Shelf Solutions}
+\subsubsection{Existing APIs}
+Firebase API is the only off-the-shelf solution used in order to store and extract data from the application.
+
+\subsubsection{Existing Products}
+Since the project is based on re-implementing an existing social media code base, therefore some of the codebase is very similar except that it is now ported into Python. This project could also be compared to social media websites like Twitter, especially when it was in it's infancy. Our product will be much simpler than Twitter is now, however the main goals of allowing users to share text posts is the same.
+
+\subsection{New Problems}
+\subsubsection{Copyright issues}
+Must ensure that the game does not infringe copyright compared to similar features of other social media applications.
+
+\subsubsection{Effects in the Current Environment}
+The application database is hosted on Firebases' cloud platform. However, increased/overloaded activity or usage requests can exceed quotas and potentially reduce performance.
+
+\subsubsection{Potential User Problems}
+The application is all displayed through a terminal window which can cause eye strain when reading large bodies of text. In addition, the application can potentially cause extended physical health problems when using a computer including but not limited to, carpal tunnel syndrome, blurred computer vision, and musculoskeletal problems.
+
+\subsubsection{Limitations in the Anticipated Implementation Environment That May Inhibit the New Product}
+Since the application uses a database hosted from Firebase Cloud Platform, it is possible that the daily data request quotas could exceed depending on the number of users active at a given time. This can drastically increase maintenance costs.
+
+\subsection{Tasks}
+The steps to deliver the product with in-depth details of each stage of the development process is outlined in the \href{https://gitlab.cas.mcmaster.ca/zamana11/se3xa3-project/-/tree/master/ProjectSchedule)}{Gantt Chart} of this project. These Gantt charts are updated on a periodic basis and cover all tasks, deliverables, and content breakdowns that are to be completed by the given deadlines. The development phases are outlined and specify the team members that are responsible for a given task.
+
+\subsection{Migration to the New Product}
+N/A.
+\subsection{Risks}
+The risks to this project are very low if any at all. Security is a low concern as authentication is handled by the Firebase back-end system. However, the lack of two-step authentication can potentially cause security issues if password is compromised. \sout{Additionally,there may be risks associated with the application performance and response time if several users use the product at once which could send clusters of requests to the back-end. This is a low risk as the cloud database is able to scale with the number of users. Poorly optimized code during development may cause some issues on the user-experience side as users often have little patience when using applications and may switch to a competing product.}This is a difficult task to mitigate as Firebase does not provide a two-step authentication feature.
+
+\subsection{Costs}
+The only cost the application will have is that of hosting the database to the third-party cloud database provider, Firebase. For the purposes of development, this will be free-to-use but will need to be upgraded to a pay-as-you-go model or one of the enterprise plans provided from the Firebase website.
+
+\subsection{User Documentation and Training}
+Explicit user training or instructions will not be necessary. The application will display to the user detailed prompts in order to do tasks such as create posts, view posts, etc. As such, no explicit documentation is required for the user to review prior to using the application.
+
+\subsection{Waiting Room}
+N/A
+
+\subsection{Ideas for Solutions}
+The original source code is in Java and does not use any specific APIs for persisting the user data. Our version will be in Python and use Firebase as the database to persist the user data(ie; posts, profile information, etc). The database will generate a unique userID(UID) for each user that registers an account. The program will retrieve this only when the user has been authenticated. Through this, the user's interactions such as "view posts" and "add posts" will be conducted. Therefore, each transaction will be applied against the users' UID in order to maintain and update their activity throughout the application.
+
+\newpage
+
+\bibliographystyle{plainnat}
+
+\begin{thebibliography}{9}
+\bibitem{latexcompanion} 
+Volere Requirements Specification Template Edition 13 - August 2007. 
+James and Suzanne Robertson, Atlantic Systems Guild, 2007.
+
+\end{thebibliography}
+
+
+\newpage
+
+
+\section{Appendix}
+N/A
+
+\subsection{Symbolic Parameters}
+
+N/A
+
+
+\end{document}
+

@@ -1,0 +1,24 @@
+*********************************
+--------Command Reference--------
+*********************************
+post add [post_content]                 : Create a new post
+post edit [post_id]                     : Edit post with specified ID
+post delete [post_id]                   : Delete post with specified ID
+
+post view followings                    : View posts of users you follow
+post view [user]                        : View specified user's posts
+post view all                           : View all posts from all users
+
+profile followings_view [username]      : View list of users you follow
+profile followers_view [username]       : View list of users that follow you
+profile followings_add [username]       : Follow a user
+profile followings_delete [username]    : Unfollow a user
+
+profile view [username]                 : View profile info of specified user
+profile edit_location [new_location]    : Change your profile location
+profile edit_name [new_name]            : Change your profile name
+profile delete account                  : Delete your account
+
+exit                                    : Exit app
+help                                    : Show this reference screen
+clear                                   : Clear the terminal screen
