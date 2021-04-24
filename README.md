@@ -26,7 +26,7 @@ Code - Implementation
 
 # Console - Installation Instructions
 ```installation:
-git clone https://gitlab.cas.mcmaster.ca/zamana11/se3xa3-project.git
-cd `./'se3xa3-project'/src/Social Media App`
+git clone https://github.com/Anando304/SocialPy.git
+cd `./src/Social Media App`
 pip install -r requirements.txt
 ```
