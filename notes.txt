@@ -1,0 +1,11 @@
+Ways to improve:
+Make the CLI available via some type of web terminal so that users don't have to keep pulling for updates, it will be auto-updated.
+So updating is a problem currently.
+
+Concurrent users - Currently we add some delays to adjust when multiple users using but we don't have a load balancer or anything
+to distribute the load. Maybe potentially using some type of load balancer with a scheduling algorithm like round-robin or 
+Shortest Task first modification so that longer waiting tasks don't starve.
+
+
+Potentially moving to a document oriented DB like fireStore since it has built-in querying logic that may be much faster rather
+than the manual approach we have that may not be as optimized.
